@@ -2,7 +2,6 @@ package com.dds.webrtclib.ws;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -242,7 +241,12 @@ public class JavaWebSocket implements IWebSocket {
             arr = (JSONArray) data.get("connections");
             String js = JSONObject.toJSONString(arr, SerializerFeature.WriteClassName);
             ArrayList<String> connections = (ArrayList<String>) JSONObject.parseArray(js, String.class);
-            connectid = connections.get(connections.size()-1);
+            if (connections.size() == 0) {
+
+            } else {
+
+                connectid = connections.get(connections.size()-1);
+            }
             String myId = (String) data.get("you");
             events.onJoinToRoom(connections, myId);
         }
@@ -279,7 +283,6 @@ public class JavaWebSocket implements IWebSocket {
 
     // 有人离开了房间
     private void handleRemoteOutRoom(Map map) {
-        Log.e("handleRemoteOutRoom", "----handleRemoteOutRoom");
         Map data = (Map) map.get("data");
         String socketId;
         if (data != null) {

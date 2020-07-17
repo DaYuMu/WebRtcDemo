@@ -21,7 +21,7 @@ import com.dds.webrtclib.IViewCallback;
 import com.dds.webrtclib.PeerConnectionHelper;
 import com.dds.webrtclib.ProxyVideoSink;
 import com.dds.webrtclib.R;
-import com.dds.webrtclib.WebRTCManager;
+import com.dds.webrtclib.WebRTCRoomManager;
 import com.dds.webrtclib.bean.MemberBean;
 import com.dds.webrtclib.utils.PermissionUtil;
 
@@ -44,7 +44,7 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
 
     private FrameLayout wr_video_view;
 
-    private WebRTCManager manager;
+    private WebRTCRoomManager manager;
     private Map<String, SurfaceViewRenderer> _videoViews = new HashMap<>();
     private Map<String, ProxyVideoSink> _sinks = new HashMap<>();
     private List<MemberBean> _infos = new ArrayList<>();
@@ -95,7 +95,7 @@ public class ChatRoomActivity extends AppCompatActivity implements IViewCallback
     }
 
     private void startCall() {
-        manager = WebRTCManager.getInstance();
+        manager = WebRTCRoomManager.getInstance();
         manager.setCallback(this);
 
         if (!PermissionUtil.isNeedRequestPermission(ChatRoomActivity.this)) {

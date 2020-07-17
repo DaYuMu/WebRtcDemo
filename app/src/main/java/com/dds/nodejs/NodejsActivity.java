@@ -35,11 +35,8 @@ public class NodejsActivity extends AppCompatActivity {
         et_room = findViewById(R.id.et_room);
     }
 
-
-//        et_signal.setText("ws://192.168.4.151:3000");
-
     private void initVar() {
-        et_signal.setText("ws://192.168.4.151:3000");
+        et_signal.setText("ws://219.148.61.25:3000");
         et_room.setText("100");
     }
 

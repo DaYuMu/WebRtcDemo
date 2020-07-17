@@ -256,8 +256,8 @@ public class PeerConnectionHelper {
             surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", _rootEglBase.getEglBaseContext());
             videoSource = _factory.createVideoSource(captureAndroid.isScreencast());
 //            if (_mediaType == MediaType.TYPE_MEETING) {
-//                 videoSource.adaptOutputFormat(200, 200, 15);
-                videoSource.adaptOutputFormat(720, 1280, 24);
+                // videoSource.adaptOutputFormat(200, 200, 15);
+                 videoSource.adaptOutputFormat(720, 1280, 30);
 //            }
             captureAndroid.initialize(surfaceTextureHelper, _context, videoSource.getCapturerObserver());
             captureAndroid.startCapture(VIDEO_RESOLUTION_WIDTH, VIDEO_RESOLUTION_HEIGHT, FPS);
@@ -453,9 +453,10 @@ public class PeerConnectionHelper {
     private static final String AUDIO_AUTO_GAIN_CONTROL_CONSTRAINT = "googAutoGainControl";
     private static final String AUDIO_HIGH_PASS_FILTER_CONSTRAINT = "googHighpassFilter";
     private static final String AUDIO_NOISE_SUPPRESSION_CONSTRAINT = "googNoiseSuppression";
-
+    private static final String CPU_OVERUSE_DETECTION_CONSTRANIT = "googCpuOveruseDetection";
+    MediaConstraints audioConstraints;
     private MediaConstraints createAudioConstraints() {
-        MediaConstraints audioConstraints = new MediaConstraints();
+        audioConstraints = new MediaConstraints();
         audioConstraints.mandatory.add(
                 new MediaConstraints.KeyValuePair(AUDIO_ECHO_CANCELLATION_CONSTRAINT, "true"));
         audioConstraints.mandatory.add(
@@ -464,6 +465,8 @@ public class PeerConnectionHelper {
                 new MediaConstraints.KeyValuePair(AUDIO_HIGH_PASS_FILTER_CONSTRAINT, "true"));
         audioConstraints.mandatory.add(
                 new MediaConstraints.KeyValuePair(AUDIO_NOISE_SUPPRESSION_CONSTRAINT, "true"));
+        audioConstraints.mandatory.add(
+                new MediaConstraints.KeyValuePair(CPU_OVERUSE_DETECTION_CONSTRANIT, "true"));
         return audioConstraints;
     }
 
@@ -626,7 +629,19 @@ public class PeerConnectionHelper {
             }
             // 管道连接抽象类实现方法
             PeerConnection.RTCConfiguration rtcConfig = new PeerConnection.RTCConfiguration(ICEServers);
-            return _factory.createPeerConnection(rtcConfig, this);
+            audioConstraints = new MediaConstraints();
+            audioConstraints.mandatory.add(
+                    new MediaConstraints.KeyValuePair(AUDIO_ECHO_CANCELLATION_CONSTRAINT, "true"));
+            audioConstraints.mandatory.add(
+                    new MediaConstraints.KeyValuePair(AUDIO_AUTO_GAIN_CONTROL_CONSTRAINT, "false"));
+            audioConstraints.mandatory.add(
+                    new MediaConstraints.KeyValuePair(AUDIO_HIGH_PASS_FILTER_CONSTRAINT, "true"));
+            audioConstraints.mandatory.add(
+                    new MediaConstraints.KeyValuePair(AUDIO_NOISE_SUPPRESSION_CONSTRAINT, "true"));
+            audioConstraints.mandatory.add(
+                    new MediaConstraints.KeyValuePair(CPU_OVERUSE_DETECTION_CONSTRANIT, "true")
+            );
+            return _factory.createPeerConnection(rtcConfig, audioConstraints,this);
         }
 
     }

@@ -85,12 +85,14 @@ public class ChatSingleActivity extends AppCompatActivity {
             local_view.init(rootEglBase.getEglBaseContext(), null);
             local_view.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
             local_view.setZOrderMediaOverlay(true);
+            //  setMirror  设置是否镜像展示
             local_view.setMirror(true);
             localRender = new ProxyVideoSink();
             //远端图像初始化
             remote_view.init(rootEglBase.getEglBaseContext(), null);
             remote_view.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_BALANCED);
-            remote_view.setMirror(true);
+            //  setMirror  设置是否镜像展示
+            remote_view.setMirror(false);
             remoteRender = new ProxyVideoSink();
             setSwappedFeeds(true);
 

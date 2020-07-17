@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.dds.webrtclib.WebRTCManager;
+import com.dds.webrtclib.WebRTCRoomManager;
 import com.dds.webrtclib.bean.MediaType;
 import com.dds.webrtclib.bean.MyIceServer;
 import com.dds.webrtclib.ui.ChatRoomActivity;
 import com.dds.webrtclib.ui.ChatSingleActivity;
+import com.dds.webrtclib.ui.RoomUserListActivity;
 import com.dds.webrtclib.ws.IConnectEvent;
 
 /**
@@ -17,13 +19,6 @@ import com.dds.webrtclib.ws.IConnectEvent;
 public class WebrtcUtil {
 
 
-    /*
-            new MyIceServer("stun:23.21.150.121"),
-    private static String WSS = "ws://192.168.4.151:3000";*/
-
-//    public static final String HOST = "47.93.186.97";
-//    public static final String HOST = "192.168.1.138:3000";
-
     // turn and stun
     private static MyIceServer[] iceServers = {
             new MyIceServer("stun:stun.l.google.com:19302"),
@@ -31,10 +26,8 @@ public class WebrtcUtil {
 
     };
 
-    // signalling
-//    private static String WSS = "wss://" + HOST + "/wss";
     //本地测试信令地址
-     private static String WSS = "ws://192.168.1.138:3000";
+     private static String WSS = "ws://219.148.61.25:3000";
 
     // one to one
     public static void callSingle(Activity activity, String wss, String roomId, boolean videoEnable) {
@@ -60,7 +53,7 @@ public class WebrtcUtil {
         if (TextUtils.isEmpty(wss)) {
             wss = WSS;
         }
-        WebRTCManager.getInstance().init(wss, iceServers, new IConnectEvent() {
+        WebRTCRoomManager.getInstance().init(wss, iceServers, new IConnectEvent() {
             @Override
             public void onSuccess() {
 //                RoomUserListActivity.openActivity(activity);
@@ -72,7 +65,7 @@ public class WebrtcUtil {
 
             }
         });
-        WebRTCManager.getInstance().connect(MediaType.TYPE_MEETING, roomId);
+        WebRTCRoomManager.getInstance().connect(MediaType.TYPE_MEETING, roomId);
     }
 
 

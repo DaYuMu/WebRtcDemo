@@ -7,7 +7,6 @@
 
     <!--静音-->
     <TextView
-        android:visibility="gone"
         android:id="@+id/wr_switch_mute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
